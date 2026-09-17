@@ -3,6 +3,9 @@ package com.sparta.msa.lesson.domain.order.entity;
 import com.sparta.msa.lesson.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,14 +28,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 public class Order {
+
+  // user - 1: N - user_orders - 1: N - order <--RDMS N:N 표현하는 설계
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
+
+//  @Column(name = "user_id")
+//  Long userId;
 
   @ManyToOne(fetch = FetchType.LAZY) // 다른 테이블에서 가저온 컬럼
   @JoinColumn(name = "user_id", nullable = false) // order를 조회하면 user도 같이 조회함(join)
@@ -54,6 +62,15 @@ public class Order {
   LocalDateTime updatedAt;
 
   @Builder
+//  public Order(
+//      Long userId,
+//      BigDecimal totalPrice,
+//      String status
+//  ) {
+//    this.userId = userId;
+//    this.totalPrice = totalPrice;
+//    this.status = status;
+//  }
   public Order(
       User user,
       BigDecimal totalPrice,

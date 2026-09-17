@@ -1,6 +1,7 @@
 package com.sparta.msa.lesson.domain.user.service;
 
 import com.sparta.msa.lesson.domain.order.entity.Order;
+import com.sparta.msa.lesson.domain.order.repository.OrderRepository;
 import com.sparta.msa.lesson.domain.user.entity.User;
 import com.sparta.msa.lesson.domain.user.repository.UserOrderRepository;
 import com.sparta.msa.lesson.domain.user.repository.UserRepository;
@@ -24,6 +25,7 @@ public class UserService {
 //  }
 
   private final UserRepository userRepository;
+  private final OrderRepository orderRepository;
   private final UserOrderRepository userOrderRepository;
 
 //  @Autowired
@@ -32,6 +34,11 @@ public class UserService {
 //  }
 
   public List<Order> getOrderByUserId(Long userId) {
+//    User user = userRepository.findById(userId)
+//        .orElseThrow(() -> new RuntimeException("유저 없음"));
+//
+//    return user.getOrders(); // 1안
+//    return orderRepository.findAllByUser(user); //2안
     return userOrderRepository.findAllByUser_Id(userId)
         .stream().map((item) -> item.getOrder())
         .toList();

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository // Repository 역할 지정
 public interface OrderRepository extends JpaRepository<User, Long> {
 
+//  List<Order> findAllByUser(User user);
+
   List<Order> findAllByUser_Id(Long userId);
 
 }
